@@ -1,7 +1,7 @@
 mod math_helper;
 mod io_helper;
 
-use crate::io_helper::{clear_screen, flush_stdout, pad_if_not_empty, parse_to_i64, print_result, print_result_float};
+use crate::io_helper::{clear_screen, flush_stdout, pad_if_not_empty, parse_to_f64, print_result};
 use crate::math_helper::{add, divide, multiply, subtract};
 use crossterm::cursor::MoveUp;
 use crossterm::terminal::{EnterAlternateScreen, LeaveAlternateScreen};
@@ -14,6 +14,7 @@ fn main() {
     
     clear_screen();
     let mut input:String = String::new();
+    let mut val: i64;
 
     loop{
 
@@ -26,7 +27,7 @@ fn main() {
 
         flush_stdout();
 
-        let val: i64 = read_nr_from_stdin("Selection", false, "");
+        val = read_nr_from_stdin("Selection", false, "") as i64;
 
         clear_screen();
 
@@ -41,7 +42,7 @@ fn main() {
                 print_result(multiply(get_2_values("Multiplication")));
             }
             4 => {
-                print_result_float(divide(get_2_values("Division")));
+                print_result(divide(get_2_values("Division")));
             }
             0 => {
                 println!("Exiting...");
@@ -59,16 +60,16 @@ fn main() {
     //Restore History
     execute!(stdout(), LeaveAlternateScreen).expect("Error while Leaving Alternate Terminal Screen");
 }
-fn get_2_values(operation_string:&str) ->(i64,i64,){
+fn get_2_values(operation_string:&str) ->(f64,f64,){
     let padded_operation_string = pad_if_not_empty(operation_string);
-    let val1:i64 = read_nr_from_stdin("First Number",true, padded_operation_string.as_str());
-    let val2:i64 = read_nr_from_stdin("Second Number",true, padded_operation_string.as_str());
+    let val1:f64 = read_nr_from_stdin("First Number",true, padded_operation_string.as_str());
+    let val2:f64 = read_nr_from_stdin("Second Number",true, padded_operation_string.as_str());
 
     clear_screen();
 
     (val1,val2)
 }
-fn read_nr_from_stdin(prompt_string:&str, screen_should_clear:bool, operation_string: &str) ->i64{
+fn read_nr_from_stdin(prompt_string:&str, screen_should_clear:bool, operation_string: &str) ->f64{
     let mut val_string: String = String::new();
     loop {
         if screen_should_clear {
@@ -77,7 +78,7 @@ fn read_nr_from_stdin(prompt_string:&str, screen_should_clear:bool, operation_st
         print!("{operation_string}{prompt_string}: ");
         flush_stdout();
         stdin().read_line(&mut val_string).expect("Failed reading from stdin");
-        return match parse_to_i64(&val_string) {
+        return match parse_to_f64(&val_string) {
             //Returns the value if it is OK
             Ok(nr) => nr,
             //Runs the below code and does not return a value and instead continues executing the loop
@@ -87,7 +88,7 @@ fn read_nr_from_stdin(prompt_string:&str, screen_should_clear:bool, operation_st
                     //only operation as prompt gets printed in next loop
                     print!("{}", operation_string);
                 }
-                println!("Number was not convertible to an i64!\n\
+                println!("Number was not convertible to an f64!\n\
                           Press Return to retry");
                 stdin().read_line(&mut val_string).expect("Failed reading from stdin");
                 // Move the cursor up so that there is no New Line in between selection attempts

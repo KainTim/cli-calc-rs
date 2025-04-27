@@ -1,13 +1,10 @@
 use std::io::{stdout, Write};
-use std::num::ParseIntError;
+use std::num::{ParseFloatError};
 use crossterm::cursor::MoveTo;
 use crossterm::QueueableCommand;
 use crossterm::terminal::{Clear, ClearType};
 
-pub fn print_result(result:i64){
-    println!("Result: {result}");
-}
-pub fn print_result_float(result:f64){
+pub fn print_result(result:f64){
     println!("Result: {result:.3}");
 }
 
@@ -29,6 +26,6 @@ pub fn pad_if_not_empty(operation_string: &str) -> String{
     padded_operation_string
 }
 
-pub fn parse_to_i64(val:&String) -> Result<i64, ParseIntError>{
+pub fn parse_to_f64(val:&String) -> Result<f64, ParseFloatError>{
     val.trim_end().to_string().parse()
 }
