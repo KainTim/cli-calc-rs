@@ -92,6 +92,7 @@ fn read_nr_from_stdin(prompt_string:&str, screen_should_clear:bool, operation_st
                 stdin().read_line(&mut val_string).expect("Failed reading from stdin");
                 // Move the cursor up so that there is no New Line in between selection attempts
                 stdout().queue(MoveUp(1)).unwrap();
+                val_string.clear();
                 //doesn't return a value
                 continue;
             },
