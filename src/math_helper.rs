@@ -13,5 +13,5 @@ pub fn divide(values:(i64,i64)) ->f64{
         println!("Divide by 0 not allowed!");
         return -1f64;
     }
-    (values.0 / values.1) as f64
+    values.0 as f64 / values.1 as f64
 }

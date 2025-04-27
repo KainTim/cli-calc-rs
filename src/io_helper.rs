@@ -8,7 +8,7 @@ pub fn print_result(result:i64){
     println!("Result: {result}");
 }
 pub fn print_result_float(result:f64){
-    println!("Result: {result}");
+    println!("Result: {result:.3}");
 }
 
 pub fn flush_stdout() {
